@@ -1,11 +1,11 @@
-import fs from 'fs';
-import { Object3D } from '../models/Object3D.js';
-import { errorResponse, successResponse } from '../utils/apiResponse.js';
+import fs from "fs";
+import { Object3D } from "../models/Object3D.js";
+import { errorResponse, successResponse } from "../utils/apiResponse.js";
 
 export const uploadObject = async (req, res, next) => {
   try {
     if (!req.file) {
-      return errorResponse(res, 400, 'Please upload a .glb file');
+      return errorResponse(res, 400, "Please upload a .glb file");
     }
 
     const fileUrl = `/uploads/${req.file.filename}`;
@@ -15,11 +15,13 @@ export const uploadObject = async (req, res, next) => {
       originalName: req.file.originalname,
       fileName: req.file.filename,
       fileUrl,
-      mimeType: req.file.mimetype || 'model/gltf-binary',
+      mimeType: req.file.mimetype || "model/gltf-binary",
       size: req.file.size,
     });
 
-    return successResponse(res, 201, '3D object uploaded successfully', { object });
+    return successResponse(res, 201, "3D object uploaded successfully", {
+      object,
+    });
   } catch (error) {
     next(error);
   }
@@ -27,8 +29,12 @@ export const uploadObject = async (req, res, next) => {
 
 export const getMyObjects = async (req, res, next) => {
   try {
-    const objects = await Object3D.find({ user: req.user._id }).sort({ createdAt: -1 });
-    return successResponse(res, 200, '3D objects fetched successfully', { objects });
+    const objects = await Object3D.find({ user: req.user._id }).sort({
+      createdAt: -1,
+    });
+    return successResponse(res, 200, "3D objects fetched successfully", {
+      objects,
+    });
   } catch (error) {
     next(error);
   }
@@ -42,10 +48,12 @@ export const getObjectById = async (req, res, next) => {
     });
 
     if (!object) {
-      return errorResponse(res, 404, '3D object not found');
+      return errorResponse(res, 404, "3D object not found");
     }
 
-    return successResponse(res, 200, '3D object fetched successfully', { object });
+    return successResponse(res, 200, "3D object fetched successfully", {
+      object,
+    });
   } catch (error) {
     next(error);
   }
@@ -56,20 +64,22 @@ export const updateCameraState = async (req, res, next) => {
     const { cameraState } = req.body;
 
     if (!cameraState?.position || !cameraState?.target) {
-      return errorResponse(res, 400, 'Valid camera state is required');
+      return errorResponse(res, 400, "Valid camera state is required");
     }
 
     const object = await Object3D.findOneAndUpdate(
       { _id: req.params.id, user: req.user._id },
       { cameraState },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
 
     if (!object) {
-      return errorResponse(res, 404, '3D object not found');
+      return errorResponse(res, 404, "3D object not found");
     }
 
-    return successResponse(res, 200, 'Camera state saved successfully', { object });
+    return successResponse(res, 200, "Camera state saved successfully", {
+      object,
+    });
   } catch (error) {
     next(error);
   }
@@ -83,7 +93,7 @@ export const deleteObject = async (req, res, next) => {
     });
 
     if (!object) {
-      return errorResponse(res, 404, '3D object not found');
+      return errorResponse(res, 404, "3D object not found");
     }
 
     if (fs.existsSync(`src/uploads/${object.fileName}`)) {
@@ -92,7 +102,7 @@ export const deleteObject = async (req, res, next) => {
 
     await object.deleteOne();
 
-    return successResponse(res, 200, '3D object deleted successfully');
+    return successResponse(res, 200, "3D object deleted successfully");
   } catch (error) {
     next(error);
   }

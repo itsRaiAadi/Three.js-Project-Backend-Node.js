@@ -1,7 +1,7 @@
-import fs from 'fs';
-import path from 'path';
-import multer from 'multer';
-import { env } from '../config/env.js';
+import fs from "fs";
+import path from "path";
+import multer from "multer";
+import { env } from "../config/env.js";
 
 const uploadPath = path.resolve(env.uploadDir);
 
@@ -22,8 +22,8 @@ const storage = multer.diskStorage({
 const fileFilter = (req, file, cb) => {
   const extension = path.extname(file.originalname).toLowerCase();
 
-  if (extension !== '.glb') {
-    return cb(new Error('Only .glb files are allowed'), false);
+  if (extension !== ".glb") {
+    return cb(new Error("Only .glb files are allowed"), false);
   }
 
   return cb(null, true);

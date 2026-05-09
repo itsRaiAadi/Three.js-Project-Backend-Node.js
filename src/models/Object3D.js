@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const cameraStateSchema = new mongoose.Schema(
   {
@@ -14,14 +14,14 @@ const cameraStateSchema = new mongoose.Schema(
     },
     zoom: { type: Number, default: 1 },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const object3DSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
       index: true,
     },
@@ -51,7 +51,7 @@ const object3DSchema = new mongoose.Schema(
       default: () => ({}),
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export const Object3D = mongoose.model('Object3D', object3DSchema);
+export const Object3D = mongoose.model("Object3D", object3DSchema);

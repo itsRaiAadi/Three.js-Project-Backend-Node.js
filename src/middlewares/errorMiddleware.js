@@ -1,4 +1,4 @@
-import { errorResponse } from '../utils/apiResponse.js';
+import { errorResponse } from "../utils/apiResponse.js";
 
 export const notFound = (req, res, next) => {
   const error = new Error(`Route not found - ${req.originalUrl}`);
@@ -12,7 +12,7 @@ export const errorHandler = (err, req, res, next) => {
   return errorResponse(
     res,
     statusCode,
-    err.message || 'Internal server error',
-    process.env.NODE_ENV === 'production' ? null : err.stack
+    err.message || "Internal server error",
+    process.env.NODE_ENV === "production" ? null : err.stack,
   );
 };
