@@ -20,7 +20,8 @@ app.use(
 
 app.use(
   cors({
-    origin: env.clientUrl,
+    origin:
+      env.clientUrl || "https://three-js-project-frontend-react-js.vercel.app",
     credentials: true,
   }),
 );
